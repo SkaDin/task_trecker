@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-fastapi = "^0.115.2"
+fastapi = {extras = ["standart"], version = "^0.115.2"}
 pydantic = "^2.9.2"
 uvicorn = {extras = ["standart"], version = "^0.32.0"}
 alembic = "^1.13.3"
@@ -18,6 +18,8 @@ ruff = "^0.6.9"
 black = "^24.10.0"
 isort = "^5.13.2"
 asyncpg = "^0.29.0"
+redis = "^5.1.1"
+fastapi-users = {extras = ["sqlalchemy"], version = "^13.0.0"}
 
 
 [tool.poetry.group.dev.dependencies]

@@ -1,6 +1,8 @@
 from datetime import datetime
 from typing import Annotated, AsyncGenerator
 
+from fastapi import Depends
+from fastapi_users.db import SQLAlchemyUserDatabase
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase, mapped_column
@@ -33,3 +35,11 @@ AsyncSessionLocal = async_sessionmaker(
 async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
     async with AsyncSessionLocal() as async_session:
         yield async_session
+
+
+async def get_user_db(
+    session: AsyncSession = Depends(get_async_session),
+):
+    from src.models import User  # ignore cyclic import
+
+    yield SQLAlchemyUserDatabase(session, User)

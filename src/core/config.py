@@ -6,18 +6,18 @@ class Config(BaseSettings):
 
     DB_URL: str
     SECRET: str
-    DB_HOST: str
-    DB_PORT: str
-    DB_USER: str
-    DB_PASSWORD: str
-    DB_NAME: str
+    POSTGRES_HOST: str
+    POSTGRES_PORT: str
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
+    POSTGRES_DB: str
 
-    # REDIS_URL: str
-    # REDIS_URL: str
-    # REDIS_PORT: str
-    # REDIS_DB: str
-    # REDIS_PASSWORD: str
-    # REDIS_USERNAME: str
+    REDIS_URL: str
+    REDIS_URL: str
+    REDIS_PORT: str
+    REDIS_DB: str
+    REDIS_PASSWORD: str
+    REDIS_USERNAME: str
 
     @property
     def db_url(self):
