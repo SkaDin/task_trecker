@@ -1,0 +1,19 @@
+DB_URL=postgresql+asyncpg://postgres:05111996@localhost:5433/my_db_proj
+DB_HOST=localhost
+DB_PORT=5433
+DB_USER=postgres
+DB_PASSWORD=05111996
+DB_NAME=my_db_proj
+
+SECRET=Misa
+
+REDIS_URL=redis://localhost:6379
+REDIS_PORT=6379
+REDIS_DB=0
+REDIS_PASSWORD=05111996
+REDIS_USERNAME=SkaDin
+
+MODE=DEV
+
+
+run="docker-compose up --env-file .env"
