@@ -9,11 +9,12 @@ from src.core.config import config
 
 create_at = Annotated[datetime, mapped_column(server_default=text("TIMEZONE('utc', now())"))]
 
-update_at = Annotated[datetime, mapped_column(server_default=text("TIMEZONE('utc', now())"), onupdate=datetime.now())]
+update_at = Annotated[
+    datetime,
+    mapped_column(server_default=text("TIMEZONE('utc', now())"), onupdate=datetime.now()),
+]
 
-due_date = Annotated[datetime, mapped_column(server_default=text("TIMEZONE('utc', now()"))]
-
-int_pk = Annotated[int, mapped_column(primary_key=True)]
+due_date = Annotated[datetime, mapped_column(server_default=text("TIMEZONE('utc', now())"))]
 
 
 class Base(DeclarativeBase):

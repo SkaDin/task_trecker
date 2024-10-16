@@ -5,13 +5,14 @@ class Config(BaseSettings):
     MODE: str
 
     DB_URL: str
-    REDIS_URL: str
     SECRET: str
     DB_HOST: str
     DB_PORT: str
     DB_USER: str
     DB_PASSWORD: str
     DB_NAME: str
+
+    # REDIS_URL: str
     # REDIS_URL: str
     # REDIS_PORT: str
     # REDIS_DB: str
