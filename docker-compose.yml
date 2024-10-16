@@ -1,20 +1,19 @@
 version: "3.9"
-
 services:
   postgres:
     image: postgres:16
     environment:
-      POSTGRES_DB: ${{ DB_HOST }}
-      POSTGRES_USER: $ {{ DB_USER }}
-      POSTGRES_PASSWORD: ${{ DB_PASSWORD }}
+      POSTGRES_DB: "taskDB"
+      POSTGRES_USER: "SkaDin"
+      POSTGRES_PASSWORD: "05111996"
       PGDATA: "/var/lib/postgresql/data/pgdata"
     volumes:
       - ../2. Init Database:/docker-entrypoint-initdb.d
-      - task_data:/var/lib/postgresql/data
+      - task-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U habrpguser -d habrdb"]
+      test: ["CMD-SHELL", "pg_isready -U SkaDin -d taskDB"]
       interval: 10s
       timeout: 5s
       retries: 5
