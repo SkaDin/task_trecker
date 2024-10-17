@@ -1,30 +1,55 @@
 version: "3.9"
 
 services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: app
+    container_name: task-app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+
   postgres:
     image: postgres:16
     environment:
-      POSTGRES_DB: ${{ DB_HOST }}
-      POSTGRES_USER: $ {{ DB_USER }}
-      POSTGRES_PASSWORD: ${{ DB_PASSWORD }}
-      PGDATA: "/var/lib/postgresql/data/pgdata"
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - ../2. Init Database:/docker-entrypoint-initdb.d
-      - task_data:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U habrpguser -d habrdb"]
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 10s
     restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          cpus: '1'
-          memory: 4G
+
+  redis:
+    image: redis:latest
+    container_name: redis_container
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_USER=${REDIS_USER}
+      - REDIS_USER_PASSWORD=${REDIS_USER_PASSWORD}
+    ports:
+      - "6380:6379"
+    volumes:
+      - ./redisdata:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "-a", "$REDIS_PASSWORD", "ping" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
+    tty: true
+    stdin_open: true
 
 volumes:
-  task-data:
+  pgdata:
