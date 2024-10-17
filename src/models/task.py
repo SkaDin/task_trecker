@@ -16,10 +16,10 @@ class Task(Base):
     priority: Mapped[Priority] = mapped_column(Enum(Priority), default=Priority.MEDIUM)
 
     assignee_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=True)
-    assignee: Mapped["User"] = relationship("User", back_populates="assigned_task", foreign_keys=[assignee_id])
+    assignee: Mapped["User"] = relationship("User", back_populates="assigned_task", foreign_keys=[assignee_id])  # noqa
 
     author_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
-    author: Mapped["User"] = relationship("User", back_populates="created_tasks", foreign_keys=[author_id])
+    author: Mapped["User"] = relationship("User", back_populates="created_tasks", foreign_keys=[author_id])  # noqa
 
     tags: Mapped[str] = mapped_column(String(255), nullable=True)
 
