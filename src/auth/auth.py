@@ -1,11 +1,18 @@
-import grpc
-from fastapi import APIRouter
+from fastapi_users.authentication import AuthenticationBackend, BearerTransport, RedisStrategy
 
-from protos.gen.python import sso_pb2_grpc
+from src.core.config import config
+from src.infrastructure.redis.redis_connect import get_redis_session
 
-router = APIRouter()
+bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
 
 
-def get_grpc_client():
-    channel = grpc.insecure_channel("localhost:40040")
-    return sso_pb2_grpc.AuthStub(channel)
+async def get_redis_strategy() -> RedisStrategy:
+    async for redis in get_redis_session():
+        return RedisStrategy(redis, lifetime_seconds=config.TTL_REDIS, key_prefix=config.SECRET_KEY)
+
+
+auth_backend = AuthenticationBackend(
+    name="jwt",
+    transport=bearer_transport,
+    get_strategy=get_redis_strategy,
+)

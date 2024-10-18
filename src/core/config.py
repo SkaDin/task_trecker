@@ -20,8 +20,7 @@ class Config(BaseSettings):
     REDIS_USERNAME: str
 
     SECRET_KEY: str
-    ALGORITHM: str
-    ACCESS_TOKEN_EXPIRE_MINUTES: int
+    TTL_REDIS: str
 
     @property
     def db_url(self):
