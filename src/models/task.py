@@ -6,7 +6,7 @@ from src.core.enum import Priority, Status
 
 
 class Task(Base):
-    __tablename__ = "task"
+    __tablename__ = "tasks"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     title: Mapped[str] = mapped_column(String(256))
     description: Mapped[str] = mapped_column(Text())
