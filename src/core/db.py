@@ -16,7 +16,7 @@ update_at = Annotated[
     mapped_column(server_default=text("TIMEZONE('utc', now())"), onupdate=datetime.now()),
 ]
 
-due_date = Annotated[datetime, mapped_column(server_default=text("TIMEZONE('utc', now())"))]
+due_date = Annotated[datetime, mapped_column()]
 
 
 class Base(DeclarativeBase):
