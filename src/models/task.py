@@ -25,5 +25,5 @@ class Task(Base):
 
     __table_args__ = (Index("idx_task_title", title),)
 
-    def __repr__(self):
-        return f"<Task(id={self.id}, title={self.title}, status={self.status}, priority={self.priority})>"
+    # def __repr__(self):
+    #     return f"<Task(id={self.id}, title={self.title}, status={self.status}, priority={self.priority})>"

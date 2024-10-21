@@ -1,12 +1,8 @@
-from typing import Annotated
-
 from fastapi import APIRouter
 from fastapi.params import Depends
-from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.core.db import get_async_session
-from src.models import Task
+from src.app.tasks.schemas import TaskResponse
+from src.auth.manager import current_user
 
 router = APIRouter(
     prefix="/tasks",
@@ -14,9 +10,9 @@ router = APIRouter(
 )
 
 
-@router.get("/")
-async def get_task(session: Annotated[AsyncSession, Depends(get_async_session)]):
-    stmt = select(Task)
-    res = await session.execute(stmt)
-    print(stmt)
-    print(res)
+@router.get(
+    "/",
+    dependencies=[Depends(current_user)],
+)
+async def get_task() -> list[TaskResponse]:
+    return []

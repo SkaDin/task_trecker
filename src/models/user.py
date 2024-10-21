@@ -22,8 +22,8 @@ class User(Base):
     )
 
     is_active: Mapped[bool] = mapped_column(Boolean(), default=True)
-    is_superuser: Mapped[bool] = mapped_column(Boolean(), default=False)
-    is_verified: Mapped[bool] = mapped_column(Boolean(), default=False)
+    is_superuser: Mapped[bool] = mapped_column(Boolean(), default=False)  # TODO: DROP COLUMN
+    is_verified: Mapped[bool] = mapped_column(Boolean(), default=False)  # TODO: DROP COLUMN
 
     __table_args__ = (Index("idx_user_email", email),)
 
