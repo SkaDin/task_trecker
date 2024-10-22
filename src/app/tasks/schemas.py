@@ -1,14 +1,14 @@
-from datetime import datetime, timezone
+from datetime import date
 
 from pydantic import BaseModel
 
-from src.core.enum import Status, Priority
+from src.core.enum import Priority, Status
 
 
 class TaskCreate(BaseModel):
     title: str
     description: str
-    due_date: datetime
+    due_date: date
     status: Status
     priority: Priority
     assignee_id: int

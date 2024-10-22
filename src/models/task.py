@@ -8,7 +8,7 @@ from src.core.enum import Priority, Status
 class Task(Base):
     __tablename__ = "tasks"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    title: Mapped[str] = mapped_column(String(256))
+    title: Mapped[str] = mapped_column(String(256), unique=True)
     description: Mapped[str] = mapped_column(Text())
     create_at: Mapped[create_at]
     due_date: Mapped[due_date]

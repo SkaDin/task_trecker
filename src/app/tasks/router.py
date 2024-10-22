@@ -18,4 +18,4 @@ router = APIRouter(
 async def create_task(task: TaskCreate) -> TaskCreateResponse:
     task_dict = task.model_dump()
     task_id = await TaskRepository().add_one(task_dict)
-    return {"task_id": task_id}
+    return TaskCreateResponse(id=task_id)
