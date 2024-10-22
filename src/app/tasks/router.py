@@ -24,7 +24,10 @@ async def get_all_tasks(
     return await task_services.get_all_tasks()
 
 
-@router.post("/create", dependencies=[Depends(current_user)])
+@router.post(
+    "/create",
+    dependencies=[Depends(current_user)],
+)
 async def create_task(
     task: TaskCreate,
     task_services: Annotated[TaskService, Depends(task_service)],

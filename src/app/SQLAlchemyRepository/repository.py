@@ -6,7 +6,7 @@ from src.core.db import AsyncSessionLocal
 
 
 class AbstractRepository(Protocol):
-    async def get_one(self, task_id: int):
+    async def get_one(self, task_id: int) -> Result:
         ...
 
     async def add_one(self, data: dict) -> int:
@@ -29,9 +29,9 @@ class SQLAlchemyRepository(AbstractRepository):
             await session.commit()
         return res.scalar_one()
 
-    async def get_one(self, task_id: int):
+    async def get_one(self, task_id: int) -> Result:
         async with AsyncSessionLocal() as session:
-            stmt = select(self.model).where(self.model.id == task_id)
+            stmt = select(self.model).where(task_id == self.model.id)
             res = await session.execute(stmt)
         return res.scalar_one()
 
