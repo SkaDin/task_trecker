@@ -24,13 +24,5 @@ fastapi_users = FastAPIUsers[User, int](
 )
 
 
-def current_user():
-    return fastapi_users.current_user(active=True)
-
-
-def current_superuser() -> User:
-    return fastapi_users.current_user(active=True, superuser=True)
-
-
-# current_user = fastapi_users.current_user(active=True)
-# current_superuser = fastapi_users.current_user(active=True, superuser=True)
+current_user = fastapi_users.current_user(active=True)
+current_superuser = fastapi_users.current_user(active=True, superuser=True)
