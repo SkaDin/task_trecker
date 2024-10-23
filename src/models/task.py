@@ -1,7 +1,9 @@
-from sqlalchemy import Enum, ForeignKey, Index, Integer, String, Text
+from datetime import datetime
+
+from sqlalchemy import TIMESTAMP, Enum, ForeignKey, Index, Integer, String, Text, text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from src.core.db import Base, create_at, due_date
+from src.core.db import Base
 from src.core.enum import Priority, Status
 
 
@@ -10,8 +12,10 @@ class Task(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     title: Mapped[str] = mapped_column(String(256), unique=True)
     description: Mapped[str] = mapped_column(Text())
-    create_at: Mapped[create_at]
-    due_date: Mapped[due_date]
+    create_at: Mapped[datetime] = mapped_column(
+        TIMESTAMP(timezone=True), server_default=text("TIMEZONE('utc', now())")
+    )
+    due_date: Mapped[datetime] = mapped_column(TIMESTAMP(timezone=True), server_default=text("TIMEZONE('utc', now())"))
     status: Mapped[Status] = mapped_column(Enum(Status), default=Status.NEW)
     priority: Mapped[Priority] = mapped_column(Enum(Priority), default=Priority.MEDIUM)
 

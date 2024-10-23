@@ -9,8 +9,6 @@ from sqlalchemy.orm import DeclarativeBase, mapped_column
 
 from src.core.config import config
 
-create_at = Annotated[datetime, mapped_column(server_default=text("TIMEZONE('utc', now())"))]
-
 update_at = Annotated[
     datetime,
     mapped_column(server_default=text("TIMEZONE('utc', now())"), onupdate=datetime.now()),

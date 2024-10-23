@@ -6,9 +6,9 @@ class TaskService:
     def __init__(self, repository: AbstractRepository):
         self.repository: AbstractRepository = repository
 
-    async def add_task(self, task: TaskCreate):
+    async def add_task(self, task: TaskCreate, author_id: int):
         task_dict = task.model_dump()
-        return await self.repository.add_one(task_dict)
+        return await self.repository.add_one(task_dict, author_id)
 
     async def get_all_tasks(self):
         return await self.repository.get_all()

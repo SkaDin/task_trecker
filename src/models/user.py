@@ -1,7 +1,9 @@
-from sqlalchemy import Boolean, Index, Integer, String
+from datetime import datetime
+
+from sqlalchemy import TIMESTAMP, Boolean, Index, Integer, String, text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from src.core.db import Base, create_at
+from src.core.db import Base
 
 
 class User(Base):
@@ -12,7 +14,9 @@ class User(Base):
     last_name: Mapped[str] = mapped_column(String(50), nullable=True)
     email: Mapped[str] = mapped_column(String(50), unique=True)
     hashed_password: Mapped[str] = mapped_column(String(255))
-    registered_at: Mapped[create_at]
+    registered_at: Mapped[datetime] = mapped_column(
+        TIMESTAMP(timezone=True), server_default=text("TIMEZONE('utc', now())")
+    )
 
     created_tasks: Mapped[list["Task"]] = relationship(  # noqa
         "Task", back_populates="author", foreign_keys="[Task.author_id]"

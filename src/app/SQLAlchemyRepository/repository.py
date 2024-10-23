@@ -9,7 +9,7 @@ class AbstractRepository(Protocol):
     async def get_one(self, task_id: int) -> Result:
         ...
 
-    async def add_one(self, data: dict) -> int:
+    async def add_one(self, data: dict, author_id: int) -> int:
         ...
 
     async def get_all(self) -> Result[tuple[Any]]:
@@ -22,8 +22,9 @@ class SQLAlchemyRepository(AbstractRepository):
     # def __init__(self, session: AsyncSession):
     #     self.session = session
 
-    async def add_one(self, data: dict) -> int:
+    async def add_one(self, data: dict, author_id: int) -> int:
         async with AsyncSessionLocal() as session:
+            data["author_id"] = author_id
             stmt = insert(self.model).values(**data).returning(self.model.id)
             res = await session.execute(stmt)
             await session.commit()
