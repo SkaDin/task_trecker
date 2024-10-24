@@ -1,5 +1,5 @@
-from src.app.SQLAlchemyRepository.repository import SQLAlchemyRepository
 from src.models import Task
+from src.utils.SQLAlchemyRepository.repository import SQLAlchemyRepository
 
 
 class TaskRepository(SQLAlchemyRepository):

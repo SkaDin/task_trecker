@@ -1,12 +1,12 @@
 from datetime import datetime, timezone
 
-from pydantic import BaseModel, Field, PrivateAttr, field_validator
+from pydantic import BaseModel, Field, PrivateAttr
 
 from src.core.enum import Priority, Status
 
 
 class TaskCreate(BaseModel):
-    title: str
+    title: str = Field(..., max_length=10)
     description: str
     _create_at: datetime = PrivateAttr(default_factory=lambda: datetime.now(timezone.utc))
     due_date: datetime
@@ -18,12 +18,6 @@ class TaskCreate(BaseModel):
     class Config:
         from_attributes = True
 
-    @field_validator("due_date")
-    def check_due_date(cls, value):
-        if value < datetime.now(timezone.utc):
-            raise ValueError("Due date must be in the future")
-        return value
-
 
 class TaskCreateResponse(BaseModel):
     id: int
@@ -34,11 +28,10 @@ class TaskCreateResponse(BaseModel):
 
 class TaskResponse(TaskCreate):
     id: int
-    create_at: datetime | str
+    create_at: datetime
 
     class Config:
         from_attributes = True
-
-    @field_validator("create_at")
-    def convert_create_at(cls, value: datetime):
-        return value.replace(tzinfo=None).strftime("%Y-%m-%d %H:%M:%S")
+        json_encoders = {
+            datetime: lambda dt: dt.isoformat(),
+        }

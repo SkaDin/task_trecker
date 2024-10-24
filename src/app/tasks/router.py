@@ -5,6 +5,7 @@ from fastapi import APIRouter, Depends
 from src.app.tasks.dependencies import task_service
 from src.app.tasks.schemas import TaskCreate, TaskCreateResponse, TaskResponse
 from src.app.tasks.services import TaskService
+from src.app.tasks.validators import check_duplicate_title
 from src.auth.manager import current_user
 from src.models import User
 
@@ -34,6 +35,7 @@ async def create_task(
     task_services: Annotated[TaskService, Depends(task_service)],
     user: User = Depends(current_user),
 ) -> TaskCreateResponse:
+    await check_duplicate_title(task, task_services)
     task_id = await task_services.add_task(task, user.id)
     return TaskCreateResponse(id=task_id)
 

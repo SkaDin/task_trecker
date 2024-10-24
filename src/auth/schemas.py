@@ -1,5 +1,5 @@
 from fastapi_users.schemas import model_dump
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
 class UserRead(BaseModel):
@@ -14,7 +14,7 @@ class UserRead(BaseModel):
 
 class UserCreate(BaseModel):
     username: str | None = None
-    email: str
+    email: EmailStr
     first_name: str | None = None
     last_name: str | None = None
     password: str
@@ -34,8 +34,6 @@ class UserCreate(BaseModel):
 
     class Config:
         from_attributes = True
-
-    # TODO: validate email.
 
 
 class UserUpdate(BaseModel):
