@@ -10,6 +10,6 @@ from src.app.tasks.services import TaskService
 async def check_duplicate_title(
     data: TaskCreate,
     task_services: Annotated[TaskService, Depends(task_service)],
-):
-    if len(await task_services.get_task_filter_by(data.title)) > 0:
+) -> None:
+    if await task_services.get_task_filter_by(data.title):
         raise HTTPException(status_code=409, detail=f"Task this title <{data.title}> already exists")
