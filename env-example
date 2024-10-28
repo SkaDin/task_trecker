@@ -1,9 +1,9 @@
-DB_URL=postgresql+asyncpg://postgres:05111996@localhost:5433/my_db_proj
-DB_HOST=localhost
-DB_PORT=5433
-DB_USER=postgres
-DB_PASSWORD=05111996
-DB_NAME=my_db_proj
+DB_URL=postgresql+asyncpg://SkaDin:05111996@localhost:5432/taskDB
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_USER=SkaDin
+POSTGRES_PASSWORD=05111996
+POSTGRES_DB=taskDB
 
 SECRET=Misa
 
@@ -14,6 +14,8 @@ REDIS_PASSWORD=05111996
 REDIS_USERNAME=SkaDin
 
 MODE=DEV
+TTL_REDIS=3600
+SECRET_KEY=Misa
 
-
-run="docker-compose up --env-file .env"
+BOOTSTRAP_SERVERS=localhost:29092
+CLIENT_ID=tasks_service

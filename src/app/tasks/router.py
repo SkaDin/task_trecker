@@ -7,6 +7,7 @@ from src.app.tasks.schemas import TaskCreate, TaskCreateResponse, TaskResponse
 from src.app.tasks.services import TaskService
 from src.app.tasks.validators import check_duplicate_title
 from src.auth.manager import current_user
+from src.core.config import config
 from src.infrastructure.kafka.depends_kafka import kafka_producer_dependency
 from src.infrastructure.kafka.kafka_produser import KafkaProducer
 from src.models import User
@@ -40,7 +41,7 @@ async def create_task(
 ) -> TaskCreateResponse:
     await check_duplicate_title(task, task_services)
     task_id = await task_services.add_task(task, user.id)
-    await kafka_producer.send_message("tasks_service", {"task_id": task.json_encoder()})
+    await kafka_producer.send_message(config.CLIENT_ID, task.json_encoder(), key=bytes(user.id))
     return TaskCreateResponse(id=task_id)
 
 
