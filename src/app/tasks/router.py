@@ -7,6 +7,8 @@ from src.app.tasks.schemas import TaskCreate, TaskCreateResponse, TaskResponse
 from src.app.tasks.services import TaskService
 from src.app.tasks.validators import check_duplicate_title
 from src.auth.manager import current_user
+from src.infrastructure.kafka.depends_kafka import kafka_producer_dependency
+from src.infrastructure.kafka.kafka_produser import KafkaProducer
 from src.models import User
 
 router = APIRouter(
@@ -33,10 +35,12 @@ async def get_all_tasks(
 async def create_task(
     task: TaskCreate,
     task_services: Annotated[TaskService, Depends(task_service)],
+    kafka_producer: Annotated[KafkaProducer, Depends(kafka_producer_dependency)],
     user: User = Depends(current_user),
 ) -> TaskCreateResponse:
     await check_duplicate_title(task, task_services)
     task_id = await task_services.add_task(task, user.id)
+    await kafka_producer.send_message("tasks_service", {"task_id": task.json_encoder()})
     return TaskCreateResponse(id=task_id)
 
 

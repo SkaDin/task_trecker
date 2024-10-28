@@ -18,6 +18,18 @@ class TaskCreate(BaseModel):
     class Config:
         from_attributes = True
 
+    def json_encoder(self):
+        return {
+            "title": self.title,
+            "description": self.description,
+            "_create_at": self._create_at.isoformat(),
+            "due_date": self.due_date.isoformat(),
+            "status": self.status,
+            "priority": self.priority,
+            "assignee_id": self.assignee_id,
+            "tags": self.tags,
+        }
+
 
 class TaskCreateResponse(BaseModel):
     id: int

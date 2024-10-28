@@ -3,7 +3,7 @@ from enum import StrEnum
 
 class Status(StrEnum):
     NEW = "new"
-    IN_PROGRESS = "in_progress"
+    IN_PROCESS = "in_process"
     DONE = "done"
     OVERDUE = "overdue"
 
