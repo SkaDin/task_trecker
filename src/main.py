@@ -1,10 +1,15 @@
+import sentry_sdk
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.app.tasks import tasks_router
 from src.auth import auth_router
+from src.core.config import config
 
+sentry_sdk.init(
+    dsn=config.SENTRY_DSN,
+)
 app = FastAPI()
 
 

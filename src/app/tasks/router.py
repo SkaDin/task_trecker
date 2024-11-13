@@ -52,3 +52,9 @@ async def get_one_task(
 ) -> TaskResponse:
     result = await task_services.get_one_task(task_id)
     return result
+
+
+@router.get("/sentry-debug")
+async def trigger_error(num1: int, num2: int):
+    division_by_zero = num1 / num2
+    return division_by_zero

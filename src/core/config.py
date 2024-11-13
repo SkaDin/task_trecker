@@ -25,6 +25,8 @@ class Config(BaseSettings):
     BOOTSTRAP_SERVERS: str
     CLIENT_ID: str
 
+    SENTRY_DSN: str
+
     @property
     def db_url(self):
         return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_NAME}"
